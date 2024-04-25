@@ -200,7 +200,7 @@ class BadGuys {
 		for (let i = 0; i < 10; i++) {
 			const x = i * BADGUY_WIDTH + firstX + i * 10;
 			// Add advance enemy if score > 500.
-			if (score > 20) {
+			if (score > 200) {
 				const randomChance = Math.floor(Math.random() * 3);
 				if (randomChance === 0) {
 					this.badGuys.push(new BadGuy(x, 10, 50, 3));
