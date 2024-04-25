@@ -198,9 +198,8 @@ class BadGuys {
 		const firstX = (canvas.width - BADGUY_WIDTH * 10 - 10 * 9) / 2;
 
 		for (let i = 0; i < 10; i++) {
-			let x = i * BADGUY_WIDTH + firstX + i * 10;
+			const x = i * BADGUY_WIDTH + firstX + i * 10;
 			// Add advance enemy if score > 500.
-			console.log(x);
 			if (score > 20) {
 				const randomChance = Math.floor(Math.random() * 3);
 				if (randomChance === 0) {
@@ -241,18 +240,22 @@ class BadGuys {
 		this.badGuys.forEach((badGuy) => {
 			projectileStack.forEach((projectile) => {
 				if (projectile.image) {
-					let projectile_middle =
+					const projectile_middle =
 						projectile.position.x + projectile.width / 2;
-
-					if (
-						projectile_middle > badGuy.position.x &&
-						projectile_middle < badGuy.position.x + badGuy.width &&
-						projectile.position.y > badGuy.position.y &&
-						projectile.position.y <
-							badGuy.position.y + badGuy.height
-					) {
-						badGuy.life -= 1;
-						projectile.alive = false;
+					try {
+						if (
+							projectile_middle > badGuy.position.x &&
+							projectile_middle <
+								badGuy.position.x + badGuy.width &&
+							projectile.position.y > badGuy.position.y &&
+							projectile.position.y <
+								badGuy.position.y + badGuy.height
+						) {
+							badGuy.life -= 1;
+							projectile.alive = false;
+						}
+					} catch (e) {
+						console.warn(e);
 					}
 				}
 			});
