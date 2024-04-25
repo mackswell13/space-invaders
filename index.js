@@ -199,14 +199,24 @@ class BadGuys {
 
 		for (let i = 0; i < 10; i++) {
 			let x = i * BADGUY_WIDTH + firstX + i * 10;
-			let newBadGuy = new BadGuy(x, 10);
-			this.badGuys.push(newBadGuy);
+			// Add advance enemy if score > 500.
+			console.log(x);
+			if (score > 20) {
+				const randomChance = Math.floor(Math.random() * 3);
+				if (randomChance === 0) {
+					this.badGuys.push(new BadGuy(x, 10, 50, 3));
+				} else {
+					this.badGuys.push(new BadGuy(x, 10));
+				}
+			} else {
+				this.badGuys.push(new BadGuy(x, 10));
+			}
 		}
 	}
 
 	cleanUp() {
 		this.badGuys.forEach((badGuy) => {
-			if (!badGuy.alive) {
+			if (badGuy.life <= 0) {
 				score += badGuy.score;
 				this.badGuys.splice(this.badGuys.indexOf(badGuy), 1);
 			}
@@ -241,7 +251,7 @@ class BadGuys {
 						projectile.position.y <
 							badGuy.position.y + badGuy.height
 					) {
-						badGuy.alive = false;
+						badGuy.life -= 1;
 						projectile.alive = false;
 					}
 				}
@@ -268,11 +278,12 @@ class BadGuys {
 }
 
 class BadGuy {
-	constructor(x, y, score = 10) {
+	constructor(x, y, score = 10, life = 1) {
 		this.alive = true;
 		this.score = score;
+		this.life = life;
 		const image = new Image();
-		image.src = "enemyGreen1.png";
+		image.src = this.life > 1 ? "enemyRed1.png" : "enemyGreen1.png";
 		image.onload = () => {
 			this.image = image;
 
